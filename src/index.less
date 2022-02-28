@@ -1,0 +1,149 @@
+@import "~antd/dist/antd.less";
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.background {
+  height: 100vh;
+  display: flex;
+  padding-top: 15rem;
+  flex-direction: column;
+  align-items: center;
+  background: #013220 url(./images/background.svg) no-repeat top center/cover;
+  background-blend-mode: multiply;
+}
+
+/* --- Form containers --- */
+.form-container-basic {
+  padding: 2rem;
+  width: 25rem;
+  background-color: #fff;
+  border-radius: 0.25rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+.form-container-login {
+  padding: 3rem 2rem 2rem 2rem;
+  width: 25rem;
+  background-color: #fff;
+  border-radius: 0.25rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.form-container-success {
+  padding: 1rem 2rem 2rem 2rem;
+  width: 25rem;
+  background-color: #fff;
+  border-radius: 0.25rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- SVG Styling --- */
+.monkey-01 {
+  position: absolute;
+  top: -9rem;
+  right: 25%;
+  width: 12.5rem;
+  margin-bottom: 1rem;
+}
+.monkey-02 {
+  position: absolute;
+  top: -11rem;
+  right: -2rem;
+  width: 17rem;
+  margin-bottom: 1rem;
+}
+.monkey-03 {
+  position: absolute;
+  bottom: -1rem;
+  right: -7.5rem;
+  width: 21.75rem;
+  margin-bottom: 1rem;
+}
+.banana {
+  position: absolute;
+  top: -6rem;
+  left: 25%;
+  width: 12.5rem;
+}
+
+/* --- Text --- */
+.heading-basic {
+  font-family: "Lobster", cursive;
+  position: absolute;
+  top: -6rem;
+  left: 0rem;
+  font-size: 4rem;
+  color: #ffbf00;
+}
+.heading-success {
+  font-family: "Lobster", cursive;
+  margin-top: 1rem;
+  font-size: 4rem;
+  line-height: 3.5rem;
+  padding-right: 9.5rem;
+  text-align: center;
+  color: #ffbf00;
+}
+.description-basic {
+  padding-right: 8rem;
+  font-weight: 300;
+  color: #013220;
+}
+.description-success {
+  font-weight: 300;
+  padding-right: 9.5rem;
+  color: #013220;
+}
+p {
+  margin: 0;
+}
+
+/* --- Utilities --- */
+.button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+.margin-bottom-1 {
+  margin-bottom: 1rem;
+}
+.margin-bottom-2 {
+  margin-bottom: 2rem;
+}
+.text-center {
+  text-align: center;
+}
+.regex-mismatch {
+  color: red;
+}
+.terms-of-service {
+  max-height: 20rem;
+  overflow: auto;
+  margin-bottom: 1rem;
+  padding-right: 1rem;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+  width: 0.25rem;
+}
+::-webkit-scrollbar-thumb {
+  background: #013220;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #013220;
+}
