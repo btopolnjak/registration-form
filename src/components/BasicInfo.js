@@ -1,13 +1,20 @@
 import React from "react";
 import monkey2 from "../images/monkey-02.svg";
-import { Button, Input, Steps } from "antd";
+import { Button, Input, Steps, Form } from "antd";
+import CONFIG from "../config.json";
+
+const basicInfo = CONFIG[0];
 
 function BasicInfo({ values, handleInput, nextStep }) {
   const { Step } = Steps;
-  const { firstName, lastName } = values;
-  function validateName(field) {
-    if (/^(.){2,25}$/.test(field) && /^([^0-9]*)$/.test(field)) return true;
+
+  function validateInput(field) {
+    if (values[field] === "") return null;
+    if (/^(.){2,25}$/.test(values[field]) && /^([^0-9]*)$/.test(values[field]))
+      return "success";
+    else return "error";
   }
+
   return (
     <div className="background">
       <div className="form-container-basic">
@@ -29,32 +36,28 @@ function BasicInfo({ values, handleInput, nextStep }) {
           <Step title="Login" />
           <Step title="Terms" />
         </Steps>
-        {/* Name input */}
-        <Input
-          addonBefore="Name"
-          value={firstName}
-          placeholder="First name"
-          onChange={handleInput("firstName")}
-          size="large"
-          className="text-center"
-        />
-        {/* Surname input */}
-        <Input
-          addonBefore="Surname"
-          value={lastName}
-          placeholder="Last name"
-          onChange={handleInput("lastName")}
-          size="large"
-          className="margin-bottom-1 text-center"
-        />
+        {/* Inputs */}
+        {basicInfo.map((input) => {
+          return (
+            <Form.Item
+              validateStatus={validateInput(input.code)}
+              hasFeedback
+              style={{ marginBottom: "0.5rem" }}
+              key={input.code}
+            >
+              <Input
+                addonBefore={input.name}
+                value={values[input.code]}
+                placeholder={input.name}
+                onChange={handleInput(input.code)}
+                size="large"
+                className="text-center"
+              />
+            </Form.Item>
+          );
+        })}
         {/* Navigation buttons */}
-        <Button
-          type="primary"
-          disabled={![firstName, lastName].every(validateName)}
-          onClick={() => nextStep()}
-          block
-          size="large"
-        >
+        <Button type="primary" onClick={() => nextStep()} block size="large">
           Next
         </Button>
       </div>

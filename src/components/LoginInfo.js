@@ -2,32 +2,29 @@ import React from "react";
 import monkey1 from "../images/monkey-01.svg";
 import { Button, Input, Steps, Form } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
+import CONFIG from "../config.json";
+
+const loginInfo = CONFIG[1];
 
 function LoginInfo({ values, handleInput, nextStep, previousStep }) {
   const { Step } = Steps;
-  const { userName, eMail, password, passwordMatch } = values;
-  function validateEmail() {
-    if (!eMail) return null;
-    else if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(eMail))
-      return "success";
-    else return "error";
-  }
-  function validateUsername() {
-    if (!userName) return null;
-    else if (/^(.){4,20}$/.test(userName)) return "success";
+
+  function validateInput(field) {
+    if (!values[field]) return null;
+    const regEx = new RegExp(
+      loginInfo.find((e) => e.code === field).validators[0].parameters.regex
+    );
+    if (regEx.test(values[field])) return "success";
     else return "error";
   }
 
-  function validatePassword() {
-    if (!password) return null;
-    else if (
-      /^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,16}$/.test(
-        password
-      ) &&
-      password &&
-      password === passwordMatch
-    )
-      return "success";
+  function validatePassword(field) {
+    if (!values[field]) return null;
+    const regEx = new RegExp(
+      loginInfo.find((e) => e.code === field).validators[0].parameters.regex
+    );
+    console.log(regEx);
+    if (regEx.test(values[field])) return "success";
     else return "error";
   }
 
@@ -47,62 +44,85 @@ function LoginInfo({ values, handleInput, nextStep, previousStep }) {
           <Step title="Terms" />
         </Steps>
         {/* Username input */}
-        <Form.Item validateStatus={validateUsername()} hasFeedback>
-          <Input
-            value={userName}
-            placeholder="Desired username"
-            onChange={handleInput("userName")}
-            size="large"
-          />
-        </Form.Item>
-        {/* Email input */}
-        <Form.Item validateStatus={validateEmail()} hasFeedback>
-          <Input
-            value={eMail}
-            placeholder="E-mail address"
-            onChange={handleInput("eMail")}
-            size="large"
-          />
-        </Form.Item>
-        {/* Password input */}
-        <Form.Item validateStatus={validatePassword()} hasFeedback>
-          <Input.Password
-            value={password}
-            iconRender={(visible) =>
-              visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-            }
-            type="password"
-            placeholder="Password"
-            onChange={handleInput("password")}
-            size="large"
-          />
-        </Form.Item>
-        <Form.Item validateStatus={validatePassword()} hasFeedback>
-          <Input.Password
-            value={passwordMatch}
-            iconRender={(visible) =>
-              visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-            }
-            type="password"
-            placeholder="Password"
-            onChange={handleInput("passwordMatch")}
-            size="large"
-          />
-        </Form.Item>
+        {loginInfo.map((input) => {
+          switch (input.code) {
+            case "userName":
+              return (
+                <Form.Item
+                  hasFeedback
+                  validateStatus={validateInput(input.code)}
+                  key={input.code}
+                >
+                  <Input
+                    value={values[input.code]}
+                    placeholder="Desired username"
+                    onChange={handleInput(input.code)}
+                    size="large"
+                  />
+                </Form.Item>
+              );
+            case "eMail":
+              return (
+                <Form.Item
+                  hasFeedback
+                  validateStatus={validateInput(input.code)}
+                  key={input.code}
+                >
+                  <Input
+                    value={values[input.code]}
+                    placeholder="E-mail address"
+                    onChange={handleInput(input.code)}
+                    size="large"
+                  />
+                </Form.Item>
+              );
+            case "password":
+              return (
+                <Form.Item
+                  hasFeedback
+                  validateStatus={validatePassword(input.code)}
+                  key={input.code}
+                >
+                  <Input.Password
+                    value={values[input.code]}
+                    iconRender={(visible) =>
+                      visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                    }
+                    type="password"
+                    placeholder="Password"
+                    onChange={handleInput(input.code)}
+                    size="large"
+                  />
+                </Form.Item>
+              );
+            case "passwordMatch":
+              return (
+                <Form.Item
+                  hasFeedback
+                  validateStatus={validatePassword(input.code)}
+                  key={input.code}
+                >
+                  <Input.Password
+                    value={values[input.code]}
+                    iconRender={(visible) =>
+                      visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                    }
+                    type="password"
+                    placeholder="Password"
+                    onChange={handleInput(input.code)}
+                    size="large"
+                  />
+                </Form.Item>
+              );
+          }
+        })}
+
         {/* Navigation buttons */}
         <div className="button-container">
           <Button onClick={() => previousStep()} size="large" block>
             Previous
           </Button>
-          <Button
-            type="primary"
-            disabled={
-              validateEmail() && validatePassword() === "success" ? false : true
-            }
-            onClick={() => nextStep()}
-            size="large"
-            block
-          >
+          <Button type="primary" onClick={() => nextStep()} size="large" block>
             Next
           </Button>
         </div>

@@ -3,16 +3,18 @@ import BasicInfo from "./components/BasicInfo";
 import LoginInfo from "./components/LoginInfo";
 import Terms from "./components/Terms";
 import Success from "./components/Success";
+import CONFIG from "./config.json";
+
+const totalSteps = CONFIG.length;
+const fieldNames = CONFIG.flat()
+  .map((field) => field.code)
+  .filter((field) => field !== "terms");
+const fieldObject = fieldNames.reduce((a, b) => ({ ...a, [b]: "" }), {});
 
 export class App extends Component {
   state = {
     step: 1,
-    firstName: "",
-    lastName: "",
-    userName: "",
-    eMail: "",
-    password: "",
-    passwordMatch: "",
+    ...fieldObject,
   };
 
   nextStep = () => {
@@ -28,29 +30,13 @@ export class App extends Component {
   };
 
   render() {
-    const {
-      step,
-      firstName,
-      lastName,
-      userName,
-      eMail,
-      password,
-      passwordMatch,
-    } = this.state;
-    const values = {
-      step,
-      firstName,
-      lastName,
-      userName,
-      eMail,
-      password,
-      passwordMatch,
-    };
+    const { step } = this.state;
+
     switch (step) {
       case 1:
         return (
           <BasicInfo
-            values={values}
+            values={this.state}
             handleInput={this.handleInput}
             nextStep={this.nextStep}
           />
@@ -58,21 +44,21 @@ export class App extends Component {
       case 2:
         return (
           <LoginInfo
-            values={values}
+            values={this.state}
             handleInput={this.handleInput}
             nextStep={this.nextStep}
             previousStep={this.previousStep}
           />
         );
-      case 3:
+      case totalSteps:
         return (
           <Terms
-            values={values}
+            values={this.state}
             nextStep={this.nextStep}
             previousStep={this.previousStep}
           />
         );
-      case 4:
+      case totalSteps + 1:
         return <Success />;
     }
   }
